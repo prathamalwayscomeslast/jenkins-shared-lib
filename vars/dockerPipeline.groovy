@@ -1,7 +1,13 @@
-def call() {
+def call(Map config = [:]) {
   pipeline {
     agent any
 
+    triggers {
+      if (config.cron) {
+        cron(config.cron)
+      }
+    }
+    
     environment {
       IMAGE_BASE = "prathamalwayscomeslast/${env.JOB_NAME.toLowerCase()}"
       TAG        = "${env.BUILD_NUMBER}"
