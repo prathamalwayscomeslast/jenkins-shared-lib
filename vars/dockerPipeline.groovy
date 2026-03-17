@@ -18,7 +18,7 @@ def call() {
         agent {
           docker {
             image 'docker:26-dind'
-            args '-v ${WORKSPACE}:/workspace -w /workspace --privileged -u root --entrypoint=""'
+            args '-v ${WORKSPACE}:/workspace -w /workspace --privileged -u root --entrypoint=""' // This is kinda hacky and not an optimal way of doing it, it's a quick fix for DinD issues
             reuseNode true
           }
         }
