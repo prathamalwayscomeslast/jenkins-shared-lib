@@ -1,12 +1,15 @@
 def call(Map config = [:]) {
+
+  if (config.cron) {
+    properties([
+      pipelineTriggers([
+        cron(config.cron)
+      ])
+    ])
+  }
+  
   pipeline {
     agent any
-
-    triggers {
-      if (config.cron) {
-        cron(config.cron)
-      }
-    }
     
     environment {
       IMAGE_BASE = "prathamalwayscomeslast/${env.JOB_NAME.toLowerCase()}"
@@ -23,8 +26,8 @@ def call(Map config = [:]) {
       stage('Docker Build') {
         agent {
           docker {
-            image 'docker:26-dind'
-            args '-v ${WORKSPACE}:/workspace -w /workspace --privileged -u root --entrypoint=""' // This is kinda hacky and not an optimal way of doing it, it's a quick fix for DinD issues
+            image 'docker:26-cli'
+            args '-v /var/run/docker.sock:/var/run/docker.sock -v ${env.WORKSPACE}:/workspace -w /workspace -u root' // This is kinda hacky and not an optimal way of doing it, it's a quick fix for DinD issues
             reuseNode true
           }
         }
