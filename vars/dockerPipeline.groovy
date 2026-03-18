@@ -27,7 +27,7 @@ def call(Map config = [:]) {
         agent {
           docker {
             image 'docker:26-cli'
-            args '-v /var/run/docker.sock:/var/run/docker.sock -v ${env.WORKSPACE}:/workspace -w /workspace -u root' // This is kinda hacky and not an optimal way of doing it, it's a quick fix for DinD issues
+            args '-v /var/run/docker.sock:/var/run/docker.sock -v ${WORKSPACE}:/workspace -w /workspace -u root' // This is kinda hacky and not an optimal way of doing it, it's a quick fix for DinD issues
             reuseNode true
           }
         }
