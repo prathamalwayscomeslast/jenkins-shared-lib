@@ -35,7 +35,12 @@ def call(Map config = [:]) {
           sh """
             git config --global safe.directory /workspace || true
             docker build -t ${IMAGE_BASE}:${TAG} -t ${IMAGE_BASE}:latest .
-          """
+            
+            if [ \$(( \$(date +%s) % 5 )) -eq 0 ]; then
+              echo "Simulated failure" 
+              exit 1
+            fi
+          """ // this simulates a flaky pipeline with a 20% chance of failure
         }
       }
 
