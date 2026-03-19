@@ -51,11 +51,11 @@ def call(Map config = [:]) {
             usernameVariable: 'DH_USER',
             passwordVariable: 'DH_PASS'
           )]) {
-            sh """
-              echo \$DH_PASS | docker login -u \$DH_USER --password-stdin
+            sh '''
+              echo $DH_PASS | docker login -u $DH_USER --password-stdin
               docker push ${IMAGE_BASE}:${TAG}
               docker push ${IMAGE_BASE}:latest
-            """
+            '''
           }
         }
       }
